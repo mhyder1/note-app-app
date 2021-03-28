@@ -1,0 +1,35 @@
+.NoteItem {
+  padding: 5px;
+  margin-bottom: 10px;
+  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.2);
+  background-color: yellow;
+  width: 30vw;
+  height: 30vh;
+  position: relative;
+}
+
+.NoteItem__title {
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.NoteItem_body {
+  position: absolute;
+  display: block;
+  padding: 10px;
+}
+
+.NoteItem__description {
+  text-align: left;
+  margin: 4px 0;
+}
+
+.AddNoteItem__required {
+  color: #b00c0c;
+}
+
+.NoteItem__buttons {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
