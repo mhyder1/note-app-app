@@ -24,7 +24,7 @@ class NoteList extends Component {
     const { notes } = this.context;
     return (
       <section className="NoteList">
-        <h2>Your notes</h2>
+        <h2 class="title">Your notes</h2>
         <div className="NoteList__list" aria-live="polite">
           {notes.map((note) => (
             <NoteItem key={note.id} {...note} />

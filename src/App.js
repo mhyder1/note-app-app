@@ -131,8 +131,12 @@ class App extends Component {
     };
     return (
       <main className="App">
-        <h1>Notes!</h1>
-        <h1 onClick={this.addNewNote}>+</h1>
+        <div id="header">
+          <button id="addNoteBtn" onClick={this.addNewNote}>
+            +
+          </button>
+          <p id="appTitle">Notes App</p>
+        </div>
         <NotesContext.Provider value={contextValue}>
           <div className="content" aria-live="polite">
             <Route exact path="/" component={NoteList} />
