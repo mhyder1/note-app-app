@@ -1,7 +1,8 @@
 .App {
   text-align: center;
   color: #444;
-  background: url("https://cdn.hipwallpaper.com/i/5/38/NvWhsk.jpg");
+  /* background: url("https://cdn.hipwallpaper.com/i/5/38/NvWhsk.jpg"); */
+  background: url("./images/backgroundImg.png");
   background-size: cover;
 }
 
@@ -35,6 +36,15 @@ button {
   color: white;
   font-size: 2.5em;
   font-weight: bolder;
+}
+
+.addTodo {
+  border: none;
+  background: none;
+  color: white;
+  font-size: 2em;
+  font-weight: bolder;
+  margin-left: 20px;
 }
 
 #appTitle {

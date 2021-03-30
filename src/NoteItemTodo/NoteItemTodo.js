@@ -4,8 +4,9 @@ import { Link } from "react-router-dom";
 // import Rating from "../Rating/Rating";
 import NotesContext from "../NotesContext";
 import config from "../config";
-import "./NoteItem.css";
+import "./NoteItemTodo.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { create } from "domain";
 
 function editNote(noteId, noteTitle, e, noteDescription, context) {
   const id = noteId;
@@ -72,11 +73,19 @@ function deleteNoteRequest(noteId, cb) {
     });
 }
 
-export default function NoteItem(props) {
+function createTodoArray(props) {
+  console.log("Creating todo array");
+  var todoArray = props.todo.split(",");
+  return todoArray;
+}
+
+export default function NoteItemTodo(props) {
   const context = useContext(NotesContext);
+  const todos = context.todos;
+  const todoarray = createTodoArray(props);
   return (
     <NotesContext.Consumer>
-      {(context) => (
+      {(todos) => (
         <div className="NoteItem">
           <h3
             contentEditable="true"
@@ -94,25 +103,11 @@ export default function NoteItem(props) {
             {props.title}
             <i className=""></i>
           </h3>
-          <p
-            contentEditable="true"
-            className="NoteItem_body"
-            onBlur={(e) =>
-              editNote(
-                props.id,
-                props.title,
-                e.target,
-                props.description,
-                context
-              )
-            }
-          >
-            {props.notepad}
-          </p>
-
-          {/* //listtag */}
-
-          <p className="NoteItem__description">{props.description}</p>
+          <ul>
+            {todoarray.map((todo) => {
+              return <li contentEditable>{todo}</li>;
+            })}
+          </ul>
           <div className="NoteItem__buttons">
             {/* <Link to={`/edit/${props.id}`}>Edit</Link>{" "} */}
             {/* <button
@@ -122,7 +117,7 @@ export default function NoteItem(props) {
               Delete
             </button> */}
             <FontAwesomeIcon
-              icon={["fas", "trash"]}
+              icon={["fas", "list-ul"]}
               className="fa-icon"
               onClick={() => deleteNoteRequest(props.id, context.deleteNote)}
             />
@@ -133,15 +128,14 @@ export default function NoteItem(props) {
   );
 }
 
-NoteItem.defaultProps = {
+NoteItemTodo.defaultProps = {
   onClickDelete: () => {},
 };
 
-NoteItem.propTypes = {
+NoteItemTodo.propTypes = {
   id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
   title: PropTypes.string.isRequired,
-  notepad: PropTypes.string.isRequired,
-  desciption: PropTypes.string,
-
+  todo: PropTypes.string.isRequired,
+  completed: PropTypes.string,
   onClickDelete: PropTypes.func,
 };

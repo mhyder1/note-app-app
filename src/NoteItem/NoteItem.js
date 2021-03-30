@@ -28,7 +28,7 @@ function editNoteTitle(noteId, e, noteBody, noteDescription, context) {
 }
 
 function updateEndpoint(noteId, newNote, context) {
-  fetch(config.API_ENDPOINT + `/${noteId}`, {
+  fetch(config.API_ENDPOINT + `notes/${noteId}`, {
     method: "PATCH",
     body: JSON.stringify(newNote),
     headers: {
@@ -50,8 +50,9 @@ function updateEndpoint(noteId, newNote, context) {
     });
 }
 
-function deleteNoteRequest(noteId, cb) {
-  fetch(config.API_ENDPOINT + `/${noteId}`, {
+function deleteNoteRequest(noteId, context) {
+  //document.getElementById(noteId).style.display = "none";
+  fetch(config.API_ENDPOINT + `notes/${noteId}`, {
     method: "DELETE",
     headers: {
       "content-type": "application/json",
@@ -65,7 +66,7 @@ function deleteNoteRequest(noteId, cb) {
       return res.json();
     })
     .then((data) => {
-      cb(noteId);
+      context.deleteNote(data);
     })
     .catch((error) => {
       console.error(error);
@@ -77,7 +78,7 @@ export default function NoteItem(props) {
   return (
     <NotesContext.Consumer>
       {(context) => (
-        <div className="NoteItem">
+        <div className="NoteItem" id={props.id}>
           <h3
             contentEditable="true"
             className="NoteItem__title"
@@ -124,7 +125,7 @@ export default function NoteItem(props) {
             <FontAwesomeIcon
               icon={["fas", "trash"]}
               className="fa-icon"
-              onClick={() => deleteNoteRequest(props.id, context.deleteNote)}
+              onClick={() => deleteNoteRequest(props.id, context)}
             />
           </div>
         </div>

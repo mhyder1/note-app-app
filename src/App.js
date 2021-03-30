@@ -15,11 +15,13 @@ import {
   faUserPlus,
   faSignOutAlt,
   faTrash,
+  faListUl,
   faCaretDown,
   faUpload,
   faTimes,
   faBell,
 } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 library.add(
   faSmile,
   faImage,
@@ -28,6 +30,7 @@ library.add(
   faUserPlus,
   faSignOutAlt,
   faTrash,
+  faListUl,
   faCaretDown,
   faUpload,
   faTimes,
@@ -37,6 +40,7 @@ library.add(
 class App extends Component {
   state = {
     notes: [],
+    todos: [],
     error: null,
   };
 
@@ -55,8 +59,19 @@ class App extends Component {
 
   deleteNote = (noteId) => {
     const newNotes = this.state.notes.filter((bm) => bm.id !== noteId);
+    console.log("Deleting from state");
     this.setState({
       notes: newNotes,
+    });
+  };
+
+  addToDoList = () => {
+    const newTodo = {
+      title: "New Todo",
+      todoList: [],
+    };
+    this.setState({
+      todos: [...this.state.todos, newTodo],
     });
   };
 
@@ -94,7 +109,9 @@ class App extends Component {
   };
 
   componentDidMount() {
-    fetch(config.API_ENDPOINT, {
+    var todourl = config.API_ENDPOINT + "todo";
+    var notesurl = config.API_ENDPOINT + "notes";
+    fetch(notesurl, {
       method: "GET",
       headers: {
         "content-type": "application/json",
@@ -108,6 +125,26 @@ class App extends Component {
         return res.json();
       })
       .then(this.setNotes)
+      .then(
+        fetch(todourl, {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            Authorization: `Bearer ${config.API_KEY}`,
+          },
+        })
+          .then((res) => {
+            if (!res.ok) {
+              return res.json().then((error) => Promise.reject(error));
+            }
+            return res.json();
+          })
+          .then((todos) => {
+            this.setState({
+              todos: todos,
+            });
+          })
+      )
       .catch((error) => {
         console.error(error);
         this.setState({ error });
@@ -128,12 +165,21 @@ class App extends Component {
       AddNote: this.AddNote,
       deleteNote: this.deleteNote,
       updateNote: this.updateNote,
+      todos: this.state.todos,
     };
     return (
       <main className="App">
         <div id="header">
           <button id="addNoteBtn" onClick={this.addNewNote}>
             +
+          </button>
+          <button className="addTodo">
+            {" "}
+            <FontAwesomeIcon
+              icon={["fas", "list-ul"]}
+              className="fa-icon"
+              onClick={this.addToDoList}
+            />
           </button>
           <p id="appTitle">Notes App</p>
         </div>
