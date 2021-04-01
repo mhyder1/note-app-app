@@ -75,6 +75,7 @@ function deleteNoteRequest(noteId, cb) {
 
 function createTodoArray(props) {
   console.log("Creating todo array");
+  //   var todoArray = props.todo.split(",");
   var todoArray = props.todo.split(",");
   return todoArray;
 }
@@ -117,7 +118,7 @@ export default function NoteItemTodo(props) {
               Delete
             </button> */}
             <FontAwesomeIcon
-              icon={["fas", "list-ul"]}
+              icon={["fas", "trash"]}
               className="fa-icon"
               onClick={() => deleteNoteRequest(props.id, context.deleteNote)}
             />

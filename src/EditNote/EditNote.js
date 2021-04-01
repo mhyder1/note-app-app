@@ -97,7 +97,7 @@ class EditNote extends Component {
     this.setState({
       id: newFields.id || "",
       title: newFields.title || "",
-      notepad: newFields.url || "",
+      notepad: newFields.notepad || "",
       description: newFields.description || "",
     });
   };

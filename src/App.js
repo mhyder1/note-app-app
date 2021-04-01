@@ -85,7 +85,7 @@ class App extends Component {
       notes: [...this.state.notes, newNote],
     });
 
-    fetch(config.API_ENDPOINT, {
+    fetch(config.API_ENDPOINT + `notes/`, {
       method: "POST",
       body: JSON.stringify(newNote),
       headers: {
