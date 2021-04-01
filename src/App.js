@@ -9,33 +9,9 @@ import config from "./config";
 import "./App.css";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faSmile, faImage } from "@fortawesome/free-regular-svg-icons";
-import {
-  faSpinner,
-  faEllipsisV,
-  faUserPlus,
-  faSignOutAlt,
-  faTrash,
-  faListUl,
-  faCaretDown,
-  faUpload,
-  faTimes,
-  faBell,
-} from "@fortawesome/free-solid-svg-icons";
+import { faTrash, faListUl, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-library.add(
-  faSmile,
-  faImage,
-  faSpinner,
-  faEllipsisV,
-  faUserPlus,
-  faSignOutAlt,
-  faTrash,
-  faListUl,
-  faCaretDown,
-  faUpload,
-  faTimes,
-  faBell
-);
+library.add(faTrash, faListUl, faTimes);
 
 class App extends Component {
   state = {
@@ -66,6 +42,7 @@ class App extends Component {
   };
 
   addToDoList = () => {
+    console.log("Attempting to add todo");
     const newTodo = {
       title: "New Todo",
       todoList: [],
@@ -140,6 +117,8 @@ class App extends Component {
             return res.json();
           })
           .then((todos) => {
+            console.log("Getting from DB");
+            console.log(todos);
             this.setState({
               todos: todos,
             });
@@ -166,6 +145,7 @@ class App extends Component {
       deleteNote: this.deleteNote,
       updateNote: this.updateNote,
       todos: this.state.todos,
+      addToDoList: this.addToDoList,
     };
     return (
       <main className="App">

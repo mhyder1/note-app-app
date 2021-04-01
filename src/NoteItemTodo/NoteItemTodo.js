@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 // import Rating from "../Rating/Rating";
@@ -7,6 +7,8 @@ import config from "../config";
 import "./NoteItemTodo.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { create } from "domain";
+
+//get state
 
 function editNote(noteId, noteTitle, e, noteDescription, context) {
   const id = noteId;
@@ -29,7 +31,9 @@ function editNoteTitle(noteId, e, noteBody, noteDescription, context) {
 }
 
 function updateEndpoint(noteId, newNote, context) {
-  fetch(config.API_ENDPOINT + `/${noteId}`, {
+  console.log("Updating todo");
+  console.log(newNote);
+  fetch(config.API_ENDPOINT + `todo/${noteId}`, {
     method: "PATCH",
     body: JSON.stringify(newNote),
     headers: {
@@ -73,17 +77,49 @@ function deleteNoteRequest(noteId, cb) {
     });
 }
 
+function deleteTodoItem(elementId, todoArray, note, context) {
+  todoArray.splice(elementId, 1);
+  document.getElementById("item_" + elementId).style.display = "none";
+  const id = note.id;
+  const title = note.title;
+  var todo = "";
+  todoArray.map((item) => {
+    todo = todo + item + ",";
+  });
+  todo.slice(0, -1);
+  const completed = true;
+  const newTodo = { id, title, todo, completed };
+  updateEndpoint(note.id, newTodo, context);
+}
+
 function createTodoArray(props) {
   console.log("Creating todo array");
-  //   var todoArray = props.todo.split(",");
-  var todoArray = props.todo.split(",");
-  return todoArray;
+  if (props.todo == null) return;
+  var arr = props.todo.split(",");
+  return arr;
+}
+
+function addNewLine(event, todoArray) {
+  if (event.code == "Enter") {
+    alert("add");
+    const firstTodo = document.getElementById("firstTodo").innerText;
+    //set the state
+    // todoArray.push(firstTodo);
+    // document.getElementById("todolist").append();
+    //call updateEndpoint()
+  }
 }
 
 export default function NoteItemTodo(props) {
   const context = useContext(NotesContext);
   const todos = context.todos;
-  const todoarray = createTodoArray(props);
+  var todoArray = createTodoArray(props);
+
+  //1. add todoArrayto the state --
+
+  if (todoArray == null) {
+    todoArray = [];
+  }
   return (
     <NotesContext.Consumer>
       {(todos) => (
@@ -104,11 +140,67 @@ export default function NoteItemTodo(props) {
             {props.title}
             <i className=""></i>
           </h3>
-          <ul>
-            {todoarray.map((todo) => {
-              return <li contentEditable>{todo}</li>;
-            })}
-          </ul>
+          <table id="todolist">
+            {todoArray.length > 0 ? (
+              todoArray.map((todo, index) => {
+                return (
+                  <tr id={"item_" + index}>
+                    <td>
+                      <p
+                        className="todocontent single-line "
+                        contentEditable="true"
+                        onKeyPress={(e) => addNewLine(e)}
+                      >
+                        {todo}
+                      </p>
+                    </td>
+                    <td>
+                      <FontAwesomeIcon
+                        icon={["fas", "times"]}
+                        className="fa-icon delete-todo"
+                        onClick={() =>
+                          deleteTodoItem(index, todoArray, props, context)
+                        }
+                      />
+                    </td>
+                  </tr>
+                );
+              })
+            ) : (
+              <tr>
+                <td>
+                  <p
+                    className="todocontent single-line "
+                    contentEditable="true"
+                    onKeyPress={(e) => addNewLine(e, todoArray)}
+                    id="firstTodo"
+                  ></p>
+                </td>
+                <td>
+                  <FontAwesomeIcon
+                    icon={["fas", "times"]}
+                    className="fa-icon delete-todo"
+                  />
+                </td>
+              </tr>
+            )}
+            <tr>
+              <td>
+                <p
+                  className="todocontent single-line "
+                  contentEditable="true"
+                  onKeyPress={(e) => addNewLine(e, todoArray)}
+                  id="firstTodo"
+                ></p>
+              </td>
+              <td>
+                <FontAwesomeIcon
+                  icon={["fas", "times"]}
+                  className="fa-icon delete-todo"
+                />
+              </td>
+            </tr>
+          </table>
           <div className="NoteItem__buttons">
             {/* <Link to={`/edit/${props.id}`}>Edit</Link>{" "} */}
             {/* <button

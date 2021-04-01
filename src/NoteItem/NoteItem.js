@@ -63,10 +63,10 @@ function deleteNoteRequest(noteId, context) {
       if (!res.ok) {
         return res.json().then((error) => Promise.reject(error));
       }
-      return res.json();
+      return;
     })
     .then((data) => {
-      context.deleteNote(data);
+      context.deleteNote(noteId);
     })
     .catch((error) => {
       console.error(error);
