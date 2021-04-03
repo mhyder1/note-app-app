@@ -103,10 +103,6 @@ function addNewLine(event, todoArray) {
   if (event.code == "Enter") {
     alert("add");
     const firstTodo = document.getElementById("firstTodo").innerText;
-    //set the state
-    // todoArray.push(firstTodo);
-    // document.getElementById("todolist").append();
-    //call updateEndpoint()
   }
 }
 
@@ -114,8 +110,6 @@ export default function NoteItemTodo(props) {
   const context = useContext(NotesContext);
   const todos = context.todos;
   var todoArray = createTodoArray(props);
-
-  //1. add todoArrayto the state --
 
   if (todoArray == null) {
     todoArray = [];
