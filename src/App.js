@@ -27,9 +27,22 @@ class App extends Component {
     });
   };
 
+  setTodos = (todos) => {
+    this.setState({
+      todos,
+      error: null,
+    });
+  };
+
   AddNote = (note) => {
     this.setState({
       notes: [...this.state.notes, note],
+    });
+  };
+
+  addTodo = (todo) => {
+    this.setState({
+      todos: [...this.state.todos, todo],
     });
   };
 
@@ -41,15 +54,47 @@ class App extends Component {
     });
   };
 
+  deleteTodo = (todoId) => {
+    const newTodos = this.state.todos.filter((bm) => bm.id !== todoId);
+    console.log("Deleting from state");
+    this.setState({
+      todo: newTodos,
+    });
+  };
+
   addToDoList = () => {
     console.log("Attempting to add todo");
     const newTodo = {
       title: "New Todo",
       todoList: [],
+      completed: "",
+      todo: [],
     };
     this.setState({
       todos: [...this.state.todos, newTodo],
     });
+
+    fetch(config.API_ENDPOINT + `todo/`, {
+      method: "POST",
+      body: JSON.stringify(newTodo),
+      headers: {
+        "content-type": "application/json",
+        authorization: `bearer ${config.API_KEY}`,
+      },
+    })
+      .then((res) => {
+        if (!res.ok) {
+          return res.json().then((error) => Promise.reject(error));
+        }
+        return res.json();
+      })
+      .then((data) => {
+        this.context.addTodo(data);
+      })
+      .catch((error) => {
+        console.error(error);
+        this.setState({ error });
+      });
   };
 
   addNewNote = () => {
@@ -137,7 +182,13 @@ class App extends Component {
       ),
     });
   };
-
+  updateTodo = (updatedTodo) => {
+    this.setState({
+      todos: this.state.todos.map((bm) =>
+        bm.id !== updatedTodo.id ? bm : updatedTodo
+      ),
+    });
+  };
   render() {
     const contextValue = {
       notes: this.state.notes,
@@ -146,6 +197,9 @@ class App extends Component {
       updateNote: this.updateNote,
       todos: this.state.todos,
       addToDoList: this.addToDoList,
+      addTodo: this.addTodo,
+      deleteTodo: this.deleteTodo,
+      updateTodo: this.updateTodo,
     };
     return (
       <main className="App">

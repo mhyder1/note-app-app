@@ -56,7 +56,7 @@ function updateEndpoint(noteId, newNote, context) {
 }
 
 function deleteNoteRequest(noteId, cb) {
-  fetch(config.API_ENDPOINT + `/${noteId}`, {
+  fetch(config.API_ENDPOINT + `todo/${noteId}`, {
     method: "DELETE",
     headers: {
       "content-type": "application/json",
@@ -95,7 +95,8 @@ function deleteTodoItem(elementId, todoArray, note, context) {
 function createTodoArray(props) {
   console.log("Creating todo array");
   if (props.todo == null) return;
-  var arr = props.todo.split(",");
+  // var arr = props.todo.split(",");
+  var arr = props.todo;
   return arr;
 }
 
@@ -223,6 +224,6 @@ NoteItemTodo.propTypes = {
   id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
   title: PropTypes.string.isRequired,
   todo: PropTypes.string.isRequired,
-  completed: PropTypes.string,
+  completed: PropTypes.bool,
   onClickDelete: PropTypes.func,
 };
