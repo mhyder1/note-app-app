@@ -67,12 +67,12 @@ class App extends Component {
     const newTodo = {
       title: "New Todo",
       todoList: [],
-      completed: "",
+      completed: false,
       todo: [],
     };
-    this.setState({
-      todos: [...this.state.todos, newTodo],
-    });
+    // this.setState({
+    //   todos: [...this.state.todos, newTodo],
+    // });
 
     fetch(config.API_ENDPOINT + `todo/`, {
       method: "POST",
@@ -89,7 +89,7 @@ class App extends Component {
         return res.json();
       })
       .then((data) => {
-        this.context.addTodo(data);
+        this.addTodo(data);
       })
       .catch((error) => {
         console.error(error);
@@ -189,6 +189,41 @@ class App extends Component {
       ),
     });
   };
+
+  editTodoTitle(noteId, title, noteBody, noteDescription) {
+    const id = noteId;
+
+    const notepad = noteBody;
+    const description = noteDescription;
+    const newNote = { id, title, notepad, description };
+    console.log(newNote);
+    this.updateEndpoint(noteId, newNote);
+  }
+
+  updateEndpoint(noteId, newNote) {
+    console.log("Updating todo");
+    console.log(newNote);
+    fetch(config.API_ENDPOINT + `todo/${noteId}`, {
+      method: "PATCH",
+      body: JSON.stringify(newNote),
+      headers: {
+        "content-type": "application/json",
+        authorization: `Bearer ${config.API_KEY}`,
+      },
+    })
+      .then((res) => {
+        if (!res.ok) return res.json().then((error) => Promise.reject(error));
+      })
+      .then(() => {
+        //this.resetFields(newNote);
+        this.updateNote(newNote);
+        //this.props.history.push("/");
+      })
+      .catch((error) => {
+        console.error(error);
+        //this.setState({ error });
+      });
+  }
   render() {
     const contextValue = {
       notes: this.state.notes,
@@ -196,11 +231,13 @@ class App extends Component {
       deleteNote: this.deleteNote,
       updateNote: this.updateNote,
       todos: this.state.todos,
-      addToDoList: this.addToDoList,
-      addTodo: this.addTodo,
+      addToDoList: this.addToDoList.bind(this),
+      // addTodo: this.addTodo,
       deleteTodo: this.deleteTodo,
       updateTodo: this.updateTodo,
+      editTodoTitle: this.editTodoTitle.bind(this),
     };
+
     return (
       <main className="App">
         <div id="header">
