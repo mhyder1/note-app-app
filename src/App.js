@@ -190,12 +190,10 @@ class App extends Component {
     });
   };
 
-  editTodoTitle(noteId, title, noteBody, noteDescription) {
+  editTodoTitle(noteId, title, todo) {
     const id = noteId;
 
-    const notepad = noteBody;
-    const description = noteDescription;
-    const newNote = { id, title, notepad, description };
+    const newNote = { id, title, todo };
     console.log(newNote);
     this.updateEndpoint(noteId, newNote);
   }

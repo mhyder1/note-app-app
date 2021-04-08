@@ -94,26 +94,43 @@ function deleteTodoItem(elementId, todoArray, note, context) {
 function createTodoArray(props) {
   console.log("Creating todo array");
   if (props.todo == null) return;
-  // var arr = props.todo.split(",");
-  var arr = props.todo;
-  return [];
+  let arr = props.todo.split(",");
+
+  return arr;
 }
 
-function addNewLine(event, todoArray) {
-  if (event.code == "Enter") {
-    alert("add");
-    const firstTodo = document.getElementById("firstTodo").innerText;
-  }
-}
+// function addNewLine(event, todoArray, index, id) {
+//   if (event.code == "Enter") {
+//     console.log(event.target.innerText);
+//     todoArray[index] = event.target.innerText;
+//     console.log(todoArray);
+//     let todos = todoArray.join(",");
+//     // const firstTodo = document.getElementById("firstTodo").innerText;
+//     context.editTodoTitle();
+//   }
+// }
 
 export default function NoteItemTodo(props) {
   const context = useContext(NotesContext);
   // const todos = context.todos;
-  var todoArray = createTodoArray(props);
+  let todoArray = createTodoArray(props);
 
   if (todoArray == null) {
     todoArray = [];
   }
+
+  function addNewLine(event) {
+    if (event.code == "Enter") {
+      console.log(event.target.innerText);
+      const index = todoArray.indexOf(event.target.innerText);
+      todoArray[index] = event.target.innerText;
+      console.log(todoArray);
+      let todos = todoArray.join(",");
+      // const firstTodo = document.getElementById("firstTodo").innerText;
+      context.editTodoTitle(props.id, props.title, todos);
+    }
+  }
+
   return (
     <div className="NoteItem">
       {/* {props.id} */}
@@ -141,7 +158,9 @@ export default function NoteItemTodo(props) {
                   <p
                     className="todocontent single-line "
                     contentEditable="true"
-                    onKeyPress={(e) => addNewLine(e)}
+                    onKeyPress={(e) =>
+                      addNewLine(e, todoArray, index, props.id)
+                    }
                   >
                     {todo}
                   </p>
