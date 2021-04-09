@@ -1,16 +1,14 @@
 #todolist {
   text-align: left;
-  width: 100%;
+  padding: 10px;
+  width: 93%;
   list-style: none;
-  /* border: 1px solid black; */
-  margin: 0;
-  padding: 0;
+  border: 1px solid black;
 }
 
 #todolist li {
   display: flex;
   justify-content: space-between;
-  align-items: center;
 }
 
 .delete-todo {
@@ -18,21 +16,14 @@
   cursor: pointer;
 }
 
-.del-todo {
-  margin: 0;
-}
-
 .todocontent {
   width: 100%;
 }
 
 [contenteditable="true"].single-line {
-  /* white-space: nowrap; */
-  width: 260px;
-  margin: 0;
-  height: fit-content;
-  border-bottom: 1px solid black;
-  /* overflow: hidden; */
+  white-space: nowrap;
+  width: 200px;
+  overflow: hidden;
 }
 [contenteditable="true"].single-line br {
   display: none;
@@ -40,10 +31,4 @@
 [contenteditable="true"].single-line * {
   display: inline;
   white-space: nowrap;
-}
-
-.todo_buttons {
-  display: flex;
-  justify-content: space-between;
-  width: 94%;
 }

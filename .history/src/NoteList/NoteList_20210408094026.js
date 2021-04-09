@@ -25,6 +25,7 @@ class NoteList extends Component {
   render() {
     const notes = this.context.notes;
     const todos = this.context.todos;
+    console.log(this.context);
     return (
       <section className="NoteList">
         <h2 class="title">Your notes</h2>

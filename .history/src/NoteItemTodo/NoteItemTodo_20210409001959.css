@@ -2,7 +2,7 @@
   text-align: left;
   width: 100%;
   list-style: none;
-  /* border: 1px solid black; */
+  border: 1px solid black;
   margin: 0;
   padding: 0;
 }
@@ -10,7 +10,6 @@
 #todolist li {
   display: flex;
   justify-content: space-between;
-  align-items: center;
 }
 
 .delete-todo {
@@ -31,7 +30,6 @@
   width: 260px;
   margin: 0;
   height: fit-content;
-  border-bottom: 1px solid black;
   /* overflow: hidden; */
 }
 [contenteditable="true"].single-line br {
@@ -40,10 +38,4 @@
 [contenteditable="true"].single-line * {
   display: inline;
   white-space: nowrap;
-}
-
-.todo_buttons {
-  display: flex;
-  justify-content: space-between;
-  width: 94%;
 }

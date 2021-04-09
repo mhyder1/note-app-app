@@ -111,26 +111,23 @@ function createTodoArray(props) {
 export default function NoteItemTodo(props) {
   const context = useContext(NotesContext);
   // const todos = context.todos;
-  const [todoArray, setTodoArray] = useState(createTodoArray(props))
+  let todoArray = createTodoArray(props);
 
   if (todoArray == null) {
-    // todoArray = [];
-    setTodoArray([])
+    todoArray = [];
   }
 
-  function addNewLine(event, index) {
-    
+  function addNewLine(event ) {
     if (event.code == "Enter") {
-      todoArray[index] = event.target.innerText || '';
-      console.log(todoArray);
-      setTodoArray(todoArray)
-      let todos = todoArray.join(",");
-      context.editTodoTitle(props.id, props.title, todos);
+      console.log(event.target.innerText);
+      const index = todoArray.indexOf(event.target.innerText);
+      console.log(index)
+      // todoArray[index] = event.target.innerText;
+      // console.log(todoArray);
+      // let todos = todoArray.join(",");
+      // // const firstTodo = document.getElementById("firstTodo").innerText;
+      // context.editTodoTitle(props.id, props.title, todos);
     }
-  }
-
-  const addItem = () => {
-    setTodoArray([...todoArray,''])
   }
 
   return (
@@ -151,22 +148,23 @@ export default function NoteItemTodo(props) {
         {props.title}
         <i className=""></i>
       </h3>
-      <ul id="todolist">
-        {
+      <table id="todolist">
+        {todoArray.length > 0 ? (
           todoArray.map((todo, index) => {
             return (
-              <li id={"item_" + index}>
+              <tr id={"item_" + index}>
+                <td>
                   <p
                     className="todocontent single-line "
                     contentEditable="true"
                     onKeyPress={(e) => 
                       addNewLine(e, index)
                     }
-                    id="otherTodos"
                   >
                     {todo}
                   </p>
-                <p className="del-todo">
+                </td>
+                <td>
                   <FontAwesomeIcon
                     icon={["fas", "times"]}
                     className="fa-icon delete-todo"
@@ -174,18 +172,53 @@ export default function NoteItemTodo(props) {
                       deleteTodoItem(index, todoArray, props, context)
                     }
                   />
-                </p>
-              </li>
+                </td>
+              </tr>
             );
           })
-        }
-      </ul>
-      <div className="NoteItem__buttons todo_buttons">
-        <FontAwesomeIcon
-          icon={["fas", "plus"]}
-          className="fa-icon"
-          onClick={addItem}
-        />
+        ) : (
+          <tr>
+            <td>
+              <p
+                className="todocontent single-line "
+                contentEditable="true"
+                onKeyPress={(e) => addNewLine(e, todoArray)}
+                id="firstTodo"
+              ></p>
+            </td>
+            <td>
+              <FontAwesomeIcon
+                icon={["fas", "times"]}
+                className="fa-icon delete-todo"
+              />
+            </td>
+          </tr>
+        )}
+        <tr>
+          <td>
+            <p
+              className="todocontent single-line "
+              contentEditable="true"
+              onKeyPress={(e) => addNewLine(e, todoArray)}
+              id="firstTodo"
+            ></p>
+          </td>
+          <td>
+            <FontAwesomeIcon
+              icon={["fas", "times"]}
+              className="fa-icon delete-todo"
+            />
+          </td>
+        </tr>
+      </table>
+      <div className="NoteItem__buttons">
+        {/* <Link to={`/edit/${props.id}`}>Edit</Link>{" "} */}
+        {/* <button
+              className="NoteItem__description"
+              onClick={() => deleteNoteRequest(props.id, context.deleteNote)}
+            >
+              Delete
+            </button> */}
         <FontAwesomeIcon
           icon={["fas", "trash"]}
           className="fa-icon"

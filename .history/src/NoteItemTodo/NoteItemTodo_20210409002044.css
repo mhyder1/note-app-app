@@ -31,7 +31,6 @@
   width: 260px;
   margin: 0;
   height: fit-content;
-  border-bottom: 1px solid black;
   /* overflow: hidden; */
 }
 [contenteditable="true"].single-line br {
@@ -40,10 +39,4 @@
 [contenteditable="true"].single-line * {
   display: inline;
   white-space: nowrap;
-}
-
-.todo_buttons {
-  display: flex;
-  justify-content: space-between;
-  width: 94%;
 }

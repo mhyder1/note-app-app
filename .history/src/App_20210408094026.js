@@ -9,9 +9,9 @@ import config from "./config";
 import "./App.css";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faSmile, faImage } from "@fortawesome/free-regular-svg-icons";
-import { faTrash, faListUl, faTimes, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faTrash, faListUl, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-library.add(faTrash, faListUl, faTimes, faPlus);
+library.add(faTrash, faListUl, faTimes);
 
 class App extends Component {
   state = {

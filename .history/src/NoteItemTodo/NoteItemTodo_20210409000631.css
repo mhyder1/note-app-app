@@ -1,0 +1,28 @@
+#todolist {
+  text-align: left;
+  padding: 10px;
+  width: 100%;
+  list-style: none;
+}
+
+.delete-todo {
+  float: right;
+  cursor: pointer;
+}
+
+.todocontent {
+  width: 100%;
+}
+
+[contenteditable="true"].single-line {
+  white-space: nowrap;
+  width: 200px;
+  overflow: hidden;
+}
+[contenteditable="true"].single-line br {
+  display: none;
+}
+[contenteditable="true"].single-line * {
+  display: inline;
+  white-space: nowrap;
+}

@@ -111,26 +111,29 @@ function createTodoArray(props) {
 export default function NoteItemTodo(props) {
   const context = useContext(NotesContext);
   // const todos = context.todos;
-  const [todoArray, setTodoArray] = useState(createTodoArray(props))
+  let todoArray = createTodoArray(props);
 
   if (todoArray == null) {
-    // todoArray = [];
-    setTodoArray([])
+    todoArray = [];
   }
 
   function addNewLine(event, index) {
     
     if (event.code == "Enter") {
+      // console.log(event.target)
+      console.log(event.target.innerText);
+      // const index = todoArray.indexOf(event.target.innerText);
+      console.log(index)
       todoArray[index] = event.target.innerText || '';
       console.log(todoArray);
-      setTodoArray(todoArray)
-      let todos = todoArray.join(",");
-      context.editTodoTitle(props.id, props.title, todos);
+      // let todos = todoArray.join(",");
+      // // const firstTodo = document.getElementById("firstTodo").innerText;
+      // context.editTodoTitle(props.id, props.title, todos);
     }
   }
 
   const addItem = () => {
-    setTodoArray([...todoArray,''])
+    console.log('adding...')
   }
 
   return (
@@ -180,7 +183,7 @@ export default function NoteItemTodo(props) {
           })
         }
       </ul>
-      <div className="NoteItem__buttons todo_buttons">
+      <div className="todo_buttons">
         <FontAwesomeIcon
           icon={["fas", "plus"]}
           className="fa-icon"

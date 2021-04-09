@@ -42,8 +42,6 @@
   white-space: nowrap;
 }
 
-.todo_buttons {
+.NoteItem__buttons {
   display: flex;
-  justify-content: space-between;
-  width: 94%;
 }
